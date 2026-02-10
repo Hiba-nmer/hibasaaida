@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import logo from "@/assets/logo.png";
 
 const navItems = ["Home", "About", "Experience", "Work", "Skills", "Contact"];
 
@@ -19,7 +20,7 @@ const Navbar = () => {
       transition={{ duration: 0.6 }}
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5 bg-background/80 backdrop-blur-md border-b border-border/50"
     >
-      <span className="font-serif text-xl font-bold text-primary">Portfolio</span>
+      <img src={logo} alt="Logo" className="w-10 h-10 rounded-full glow-pink" />
       <div className="hidden md:flex items-center gap-8">
         {navItems.map((item) => (
           <button

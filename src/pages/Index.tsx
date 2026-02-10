@@ -5,10 +5,12 @@ import ExperienceSection from "@/components/ExperienceSection";
 import WorkSection from "@/components/WorkSection";
 import SkillsSection from "@/components/SkillsSection";
 import ContactSection from "@/components/ContactSection";
+import StarField from "@/components/StarField";
 
 const Index = () => {
   return (
     <div className="min-h-screen space-bg">
+      <StarField />
       <Navbar />
       <HeroSection />
       <AboutSection />
