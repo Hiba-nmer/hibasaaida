@@ -83,19 +83,6 @@
     overflow: hidden;
   }
 
-  .space-bg::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background-image: url('/images/milkyway-bg.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.35;
-  }
-
   @keyframes twinkle {
     0% { opacity: 0.7; }
     50% { opacity: 1; }

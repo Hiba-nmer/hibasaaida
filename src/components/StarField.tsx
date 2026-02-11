@@ -65,30 +65,83 @@ const StarField = () => {
 
     let time = 0;
 
+    // Draw nebula/milky way effect
+    const drawNebula = (mx: number, my: number) => {
+      const parallaxX = mx * 30;
+      const parallaxY = my * 30;
+
+      // Central milky way band - diagonal bright band
+      const gradient1 = ctx.createLinearGradient(
+        w * 0.2 + parallaxX, h * 0.8 + parallaxY,
+        w * 0.8 + parallaxX, h * 0.2 + parallaxY
+      );
+      gradient1.addColorStop(0, "rgba(40, 20, 80, 0)");
+      gradient1.addColorStop(0.3, "rgba(60, 30, 100, 0.15)");
+      gradient1.addColorStop(0.45, "rgba(80, 50, 130, 0.25)");
+      gradient1.addColorStop(0.5, "rgba(100, 70, 160, 0.3)");
+      gradient1.addColorStop(0.55, "rgba(80, 50, 130, 0.25)");
+      gradient1.addColorStop(0.7, "rgba(60, 30, 100, 0.15)");
+      gradient1.addColorStop(1, "rgba(40, 20, 80, 0)");
+      ctx.fillStyle = gradient1;
+      ctx.fillRect(0, 0, w, h);
+
+      // Pink/magenta nebula cluster
+      const nebula1 = ctx.createRadialGradient(
+        w * 0.45 + parallaxX * 1.5, h * 0.45 + parallaxY * 1.5, 0,
+        w * 0.45 + parallaxX * 1.5, h * 0.45 + parallaxY * 1.5, w * 0.35
+      );
+      nebula1.addColorStop(0, "rgba(180, 60, 120, 0.12)");
+      nebula1.addColorStop(0.3, "rgba(140, 40, 100, 0.08)");
+      nebula1.addColorStop(0.6, "rgba(100, 30, 80, 0.04)");
+      nebula1.addColorStop(1, "rgba(60, 20, 60, 0)");
+      ctx.fillStyle = nebula1;
+      ctx.fillRect(0, 0, w, h);
+
+      // Blue nebula area
+      const nebula2 = ctx.createRadialGradient(
+        w * 0.6 + parallaxX * 1.2, h * 0.35 + parallaxY * 1.2, 0,
+        w * 0.6 + parallaxX * 1.2, h * 0.35 + parallaxY * 1.2, w * 0.3
+      );
+      nebula2.addColorStop(0, "rgba(40, 60, 160, 0.1)");
+      nebula2.addColorStop(0.4, "rgba(30, 40, 120, 0.06)");
+      nebula2.addColorStop(1, "rgba(20, 20, 80, 0)");
+      ctx.fillStyle = nebula2;
+      ctx.fillRect(0, 0, w, h);
+
+      // Warm orange/brown dust
+      const nebula3 = ctx.createRadialGradient(
+        w * 0.35 + parallaxX, h * 0.55 + parallaxY, 0,
+        w * 0.35 + parallaxX, h * 0.55 + parallaxY, w * 0.25
+      );
+      nebula3.addColorStop(0, "rgba(120, 60, 30, 0.06)");
+      nebula3.addColorStop(0.5, "rgba(80, 40, 20, 0.03)");
+      nebula3.addColorStop(1, "rgba(40, 20, 10, 0)");
+      ctx.fillStyle = nebula3;
+      ctx.fillRect(0, 0, w, h);
+    };
+
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
       time += 1;
 
-      // Mouse influence offset
       const mx = (mouseX - w / 2) / w;
       const my = (mouseY - h / 2) / h;
+
+      // Draw nebula background
+      drawNebula(mx, my);
 
       for (const star of stars) {
         star.angle += star.speed;
 
-        // Base position from orbital motion
         const baseX = star.centerX + Math.cos(star.angle) * star.radius;
-        const baseY = star.centerY + Math.sin(star.angle) * star.radius * 0.4; // elliptical
+        const baseY = star.centerY + Math.sin(star.angle) * star.radius * 0.4;
 
-        // Mouse parallax - stars shift based on mouse position
         const parallaxStrength = star.radius * 0.05;
         const x = baseX + mx * parallaxStrength;
         const y = baseY + my * parallaxStrength;
 
-        // Skip if off screen
         if (x < -10 || x > w + 10 || y < -10 || y > h + 10) continue;
 
-        // Twinkle
         const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.4 + 0.6;
         const alpha = star.opacity * twinkle;
 
@@ -97,7 +150,6 @@ const StarField = () => {
         ctx.fillStyle = `rgba(${star.color}, ${alpha})`;
         ctx.fill();
 
-        // Glow for larger stars
         if (star.size > 1.2) {
           ctx.beginPath();
           ctx.arc(x, y, star.size * 2.5, 0, Math.PI * 2);
