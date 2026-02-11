@@ -20,7 +20,7 @@ const Navbar = () => {
       transition={{ duration: 0.6 }}
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5 bg-background/80 backdrop-blur-md border-b border-border/50"
     >
-      <img src={logo} alt="Logo" className="w-10 h-10 rounded-full glow-pink" />
+      <img src={logo} alt="Logo" className="w-12 h-12 rounded-full border-2 border-primary/40 glow-pink object-cover" />
       <div className="hidden md:flex items-center gap-8">
         {navItems.map((item) => (
           <button

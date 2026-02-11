@@ -30,7 +30,7 @@ const SkillsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="bg-card border border-border rounded-xl p-6"
+              className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-6 hover:bg-card transition-all duration-300"
             >
               <EditableText tag="h3" defaultValue={group.title} className="text-lg font-bold text-primary mb-4" />
               <div className="space-y-3">

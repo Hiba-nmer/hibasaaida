@@ -30,7 +30,7 @@ const ExperienceSection = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-card border border-border rounded-xl p-8 hover:border-primary/30 transition-colors duration-300"
+              className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-8 hover:bg-card hover:border-primary/30 transition-all duration-300"
             >
               <div className="flex flex-col md:flex-row md:items-start gap-6">
                 <span className="text-4xl font-serif font-bold text-primary/30 shrink-0">{exp.num}</span>
