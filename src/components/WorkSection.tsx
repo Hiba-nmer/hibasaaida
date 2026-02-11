@@ -33,7 +33,7 @@ const WorkSection = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="bg-card border border-border rounded-xl p-6 hover:border-primary/40 hover:glow-pink transition-all duration-300 group cursor-pointer"
+              className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-6 hover:bg-card hover:border-primary/40 hover:glow-pink transition-all duration-300 group cursor-pointer"
               onClick={() => {
                 if (project.file) {
                   const a = document.createElement("a");

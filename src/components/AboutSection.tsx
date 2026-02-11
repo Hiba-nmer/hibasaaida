@@ -22,21 +22,41 @@ const AboutSection = () => {
           <EditableText tag="p" defaultValue="The Story Behind the Vision" className="mt-4 text-lg text-muted-foreground" />
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {cards.map((card, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.15 }}
-              className="bg-card border border-border rounded-xl p-8 hover:glow-pink transition-shadow duration-500 group"
-            >
-              <span className="text-5xl font-serif font-bold text-primary/20 group-hover:text-primary/40 transition-colors">{card.num}</span>
-              <EditableText tag="h3" defaultValue={card.title} className="text-xl font-bold text-foreground mt-4 mb-3" />
-              <EditableText tag="p" defaultValue={card.desc} className="text-muted-foreground leading-relaxed text-sm" />
-            </motion.div>
-          ))}
+        <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          {/* Profile Image - placeholder until user sends image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-1 flex justify-center"
+          >
+            <div className="w-72 h-80 rounded-2xl bg-card border border-border overflow-hidden glow-pink flex items-center justify-center">
+              <p className="text-muted-foreground text-sm text-center px-4">صورتك هنا<br/>ابعتلي الصورة</p>
+            </div>
+          </motion.div>
+
+          {/* Cards */}
+          <div className="lg:col-span-2 grid md:grid-cols-1 gap-6">
+            {cards.map((card, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.15 }}
+                className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-6 hover:bg-card transition-all duration-300 group"
+              >
+                <div className="flex items-start gap-4">
+                  <span className="text-4xl font-serif font-bold text-primary/20 group-hover:text-primary/40 transition-colors shrink-0">{card.num}</span>
+                  <div>
+                    <EditableText tag="h3" defaultValue={card.title} className="text-xl font-bold text-foreground mb-2" />
+                    <EditableText tag="p" defaultValue={card.desc} className="text-muted-foreground leading-relaxed text-sm" />
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

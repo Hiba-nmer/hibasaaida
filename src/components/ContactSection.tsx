@@ -21,7 +21,7 @@ const ContactSection = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-card border border-border rounded-xl p-6 text-center"
+            className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-6 text-center hover:bg-card transition-all duration-300"
           >
             <Mail className="w-6 h-6 text-primary mx-auto mb-3" />
             <p className="text-sm text-muted-foreground mb-1">Email</p>
@@ -32,7 +32,7 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="bg-card border border-border rounded-xl p-6 text-center"
+            className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-6 text-center hover:bg-card transition-all duration-300"
           >
             <Phone className="w-6 h-6 text-primary mx-auto mb-3" />
             <p className="text-sm text-muted-foreground mb-1">Phone</p>
@@ -43,7 +43,7 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="bg-card border border-border rounded-xl p-6 text-center"
+            className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-6 text-center hover:bg-card transition-all duration-300"
           >
             <MapPin className="w-6 h-6 text-primary mx-auto mb-3" />
             <p className="text-sm text-muted-foreground mb-1">Location</p>
@@ -55,7 +55,7 @@ const ContactSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-card border border-border rounded-xl p-8 space-y-4"
+          className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-8 space-y-4 hover:bg-card transition-all duration-300"
           onSubmit={(e) => e.preventDefault()}
         >
           <div className="grid md:grid-cols-2 gap-4">

@@ -59,7 +59,7 @@ const StarField = () => {
     ];
 
     // More stars with varied density
-    for (let i = 0; i < 600; i++) {
+    for (let i = 0; i < 350; i++) {
       const centerX = w / 2 + (Math.random() - 0.5) * w * 0.4;
       const centerY = h / 2 + (Math.random() - 0.5) * h * 0.4;
       stars.push({
