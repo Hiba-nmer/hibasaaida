@@ -13,35 +13,55 @@ const StarField = () => {
     let w = (canvas.width = window.innerWidth);
     let h = (canvas.height = window.innerHeight);
 
-    const stars: { x: number; y: number; r: number; speed: number; opacity: number; pink: boolean; twinkleSpeed: number; twinkleOffset: number }[] = [];
+    // Mouse position (center by default)
+    let mouseX = w / 2;
+    let mouseY = h / 2;
 
-    for (let i = 0; i < 200; i++) {
-      const pink = Math.random() < 0.4;
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+
+    // Stars with orbital properties
+    const stars: {
+      angle: number;
+      radius: number;
+      speed: number;
+      size: number;
+      opacity: number;
+      centerX: number;
+      centerY: number;
+      color: string;
+      twinkleSpeed: number;
+      twinkleOffset: number;
+    }[] = [];
+
+    const colors = [
+      "200, 220, 255",   // blue-white
+      "255, 255, 255",   // white
+      "220, 200, 255",   // lavender
+      "255, 200, 220",   // pinkish
+      "180, 200, 255",   // cool blue
+      "255, 230, 200",   // warm
+    ];
+
+    for (let i = 0; i < 400; i++) {
+      const centerX = w / 2 + (Math.random() - 0.5) * w * 0.3;
+      const centerY = h / 2 + (Math.random() - 0.5) * h * 0.3;
       stars.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r: Math.random() * 1.8 + 0.3,
-        speed: Math.random() * 0.3 + 0.05,
-        opacity: Math.random() * 0.7 + 0.3,
-        pink,
-        twinkleSpeed: Math.random() * 0.02 + 0.005,
+        angle: Math.random() * Math.PI * 2,
+        radius: Math.random() * Math.max(w, h) * 0.6 + 20,
+        speed: (Math.random() * 0.0008 + 0.0001) * (Math.random() < 0.5 ? 1 : -1),
+        size: Math.random() * 1.8 + 0.3,
+        opacity: Math.random() * 0.8 + 0.2,
+        centerX,
+        centerY,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        twinkleSpeed: Math.random() * 0.03 + 0.005,
         twinkleOffset: Math.random() * Math.PI * 2,
       });
     }
-
-    // Shooting stars
-    const shootingStars: { x: number; y: number; len: number; speed: number; opacity: number; active: boolean }[] = [];
-
-    const spawnShootingStar = () => {
-      shootingStars.push({
-        x: Math.random() * w,
-        y: Math.random() * h * 0.5,
-        len: Math.random() * 80 + 40,
-        speed: Math.random() * 6 + 4,
-        opacity: 1,
-        active: true,
-      });
-    };
 
     let time = 0;
 
@@ -49,54 +69,41 @@ const StarField = () => {
       ctx.clearRect(0, 0, w, h);
       time += 1;
 
-      // Draw stars
+      // Mouse influence offset
+      const mx = (mouseX - w / 2) / w;
+      const my = (mouseY - h / 2) / h;
+
       for (const star of stars) {
-        const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.3 + 0.7;
+        star.angle += star.speed;
+
+        // Base position from orbital motion
+        const baseX = star.centerX + Math.cos(star.angle) * star.radius;
+        const baseY = star.centerY + Math.sin(star.angle) * star.radius * 0.4; // elliptical
+
+        // Mouse parallax - stars shift based on mouse position
+        const parallaxStrength = star.radius * 0.05;
+        const x = baseX + mx * parallaxStrength;
+        const y = baseY + my * parallaxStrength;
+
+        // Skip if off screen
+        if (x < -10 || x > w + 10 || y < -10 || y > h + 10) continue;
+
+        // Twinkle
+        const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.4 + 0.6;
         const alpha = star.opacity * twinkle;
 
-        if (star.pink) {
-          ctx.fillStyle = `hsla(330, 85%, 65%, ${alpha})`;
-          ctx.shadowColor = `hsla(330, 85%, 65%, ${alpha * 0.5})`;
-          ctx.shadowBlur = star.r * 3;
-        } else {
-          ctx.fillStyle = `hsla(0, 0%, 100%, ${alpha})`;
-          ctx.shadowColor = `hsla(0, 0%, 100%, ${alpha * 0.3})`;
-          ctx.shadowBlur = star.r * 2;
-        }
-
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.arc(x, y, star.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${star.color}, ${alpha})`;
         ctx.fill();
 
-        // Slow drift
-        star.y += star.speed * 0.2;
-        if (star.y > h + 5) {
-          star.y = -5;
-          star.x = Math.random() * w;
+        // Glow for larger stars
+        if (star.size > 1.2) {
+          ctx.beginPath();
+          ctx.arc(x, y, star.size * 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${star.color}, ${alpha * 0.15})`;
+          ctx.fill();
         }
-      }
-
-      ctx.shadowBlur = 0;
-
-      // Shooting stars
-      if (Math.random() < 0.003) spawnShootingStar();
-
-      for (const ss of shootingStars) {
-        if (!ss.active) continue;
-        const gradient = ctx.createLinearGradient(ss.x, ss.y, ss.x - ss.len, ss.y - ss.len * 0.4);
-        gradient.addColorStop(0, `hsla(330, 85%, 70%, ${ss.opacity})`);
-        gradient.addColorStop(1, `hsla(330, 85%, 70%, 0)`);
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(ss.x, ss.y);
-        ctx.lineTo(ss.x - ss.len, ss.y - ss.len * 0.4);
-        ctx.stroke();
-
-        ss.x += ss.speed;
-        ss.y += ss.speed * 0.4;
-        ss.opacity -= 0.015;
-        if (ss.opacity <= 0) ss.active = false;
       }
 
       animationId = requestAnimationFrame(draw);
@@ -113,6 +120,7 @@ const StarField = () => {
     return () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
 
