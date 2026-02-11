@@ -56,10 +56,10 @@
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', sans-serif;
     background:
-      radial-gradient(ellipse at 50% 50%, hsl(250 40% 18% / 0.6) 0%, transparent 60%),
-      radial-gradient(ellipse at 50% 45%, hsl(280 30% 15% / 0.4) 0%, transparent 50%),
-      radial-gradient(ellipse at 40% 50%, hsl(30 40% 20% / 0.15) 0%, transparent 30%),
-      hsl(240 30% 5%);
+      radial-gradient(ellipse at 50% 50%, hsl(330 30% 10% / 0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 45%, hsl(340 20% 8% / 0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 40% 50%, hsl(320 25% 8% / 0.15) 0%, transparent 30%),
+      hsl(260 30% 4%);
     background-attachment: fixed;
   }
 
