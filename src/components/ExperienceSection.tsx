@@ -1,14 +1,19 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import EditableText from "./EditableText";
+import { X } from "lucide-react";
+import bankCertificate from "@/assets/bank-certificate.png";
 
 const experiences = [
-  { num: "01", company: "Bank of Palestine", role: "Marketing Training Program", tags: ["Marketing", "Events", "Banking"], desc: "Completed comprehensive training program and actively participated in marketing events, gaining valuable industry experience in banking sector marketing." },
+  { num: "01", company: "Bank of Palestine", role: "Marketing Training Program", tags: ["Marketing", "Events", "Banking"], desc: "Completed comprehensive training program and actively participated in marketing events, gaining valuable industry experience in banking sector marketing.", certificate: bankCertificate },
   { num: "02", company: "Social Media Manager", role: "Freelance Digital Marketing", tags: ["Social Media", "Project Management", "Client Relations"], desc: "Enhanced social media engagement by 10% and optimized audience interaction. Managed project timelines effectively, reducing delivery times by 30%." },
   { num: "03", company: "English Teacher", role: "Rowad Al-Ghad Institute", tags: ["Education", "Communication", "Leadership"], desc: "Developed innovative support systems for students to boost confidence and improve grades. Successfully maintained full class attendance through engaging teaching strategies." },
   { num: "04", company: "Career Preparation", role: "University Training Program", tags: ["Career Ready", "Digital Skills", "Professional Growth"], desc: "Completed essential workplace preparation courses: Internet Safety, Introduction to Gen AI, Self-Control Development, and Self-Confidence Enhancement." },
 ];
 
 const ExperienceSection = () => {
+  const [showCertificate, setShowCertificate] = useState<string | null>(null);
+
   return (
     <section id="experience" className="py-24 px-6 bg-card/50">
       <div className="max-w-6xl mx-auto">
@@ -45,12 +50,46 @@ const ExperienceSection = () => {
                     ))}
                   </div>
                   <EditableText tag="p" defaultValue={exp.desc} className="text-muted-foreground text-sm mt-4 leading-relaxed" />
+                  {exp.certificate && (
+                    <button
+                      onClick={() => setShowCertificate(exp.certificate!)}
+                      className="mt-4 text-sm text-primary hover:text-primary/80 font-medium transition-colors underline underline-offset-4"
+                    >
+                      View Certificate
+                    </button>
+                  )}
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
+
+      {/* Certificate Popup */}
+      <AnimatePresence>
+        {showCertificate && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-background/90 backdrop-blur-md flex items-center justify-center p-6"
+            onClick={() => setShowCertificate(null)}
+          >
+            <button onClick={() => setShowCertificate(null)} className="absolute top-6 right-6 text-foreground hover:text-primary transition-colors">
+              <X className="w-8 h-8" />
+            </button>
+            <motion.img
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              src={showCertificate}
+              alt="Certificate"
+              className="max-w-full max-h-[85vh] rounded-xl shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
