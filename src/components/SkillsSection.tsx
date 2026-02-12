@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import EditableText from "./EditableText";
+import flowersSky from "@/assets/flowers-sky.png";
 
 const skillGroups = [
   { title: "E-Commerce", skills: ["Online Store Management", "SEO Optimization", "Data Analysis", "Digital Marketing"] },
@@ -10,8 +11,14 @@ const skillGroups = [
 
 const SkillsSection = () => {
   return (
-    <section id="skills" className="py-24 px-6 bg-card/50">
-      <div className="max-w-6xl mx-auto">
+    <section id="skills" className="py-24 px-6 relative overflow-hidden">
+      {/* Background image */}
+      <div className="absolute inset-0">
+        <img src={flowersSky} alt="" className="w-full h-full object-cover opacity-15" />
+        <div className="absolute inset-0 bg-background/80" />
+      </div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

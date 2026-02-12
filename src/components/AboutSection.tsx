@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import EditableText from "./EditableText";
+import watercolorPainting from "@/assets/watercolor-painting.webp";
+import logoLarge from "@/assets/logo-large.webp";
 
 const cards = [
   { num: "01", title: "The Strategist", desc: "A highly motivated E-Commerce and Business Administration student with strong skills in digital marketing, programming, and graphic design. I bring analytical thinking to creative challenges." },
@@ -23,7 +25,7 @@ const AboutSection = () => {
         </motion.div>
 
         <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-          {/* Profile Image - placeholder until user sends image */}
+          {/* Profile Image with Logo overlay */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -31,8 +33,10 @@ const AboutSection = () => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-1 flex justify-center"
           >
-            <div className="w-72 h-80 rounded-2xl bg-card border border-border overflow-hidden glow-pink flex items-center justify-center">
-              <p className="text-muted-foreground text-sm text-center px-4">صورتك هنا<br/>ابعتلي الصورة</p>
+            <div className="relative w-80 h-[420px] rounded-2xl overflow-hidden glow-pink">
+              <img src={watercolorPainting} alt="Artistic painting" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/30" />
+              <img src={logoLarge} alt="Logo" className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-28 object-contain drop-shadow-lg" />
             </div>
           </motion.div>
 
