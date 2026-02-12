@@ -34,7 +34,7 @@ const StarField = () => {
     };
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Stars
+    // Stars - more realistic with blue-white dominant colors
     const stars: {
       angle: number;
       radius: number;
@@ -43,35 +43,45 @@ const StarField = () => {
       opacity: number;
       centerX: number;
       centerY: number;
-      color: string;
+      r: number;
+      g: number;
+      b: number;
       twinkleSpeed: number;
       twinkleOffset: number;
     }[] = [];
 
-    const colors = [
-      "220, 230, 255",   // bright blue-white
-      "255, 255, 255",   // pure white
-      "255, 240, 250",   // soft pink-white
-      "255, 200, 230",   // pink
-      "200, 210, 255",   // cool blue
-      "255, 220, 240",   // warm pink
-      "240, 248, 255",   // alice blue
+    // Realistic star colors: blue-white, white, warm white, blue
+    const starColors = [
+      { r: 180, g: 200, b: 255 }, // blue-white (most common)
+      { r: 200, g: 215, b: 255 }, // light blue
+      { r: 255, g: 255, b: 255 }, // pure white
+      { r: 220, g: 230, b: 255 }, // cool white
+      { r: 140, g: 170, b: 255 }, // blue
+      { r: 100, g: 140, b: 255 }, // deeper blue
+      { r: 255, g: 240, b: 230 }, // warm white (rare)
     ];
 
-    // More stars with varied density
-    for (let i = 0; i < 350; i++) {
-      const centerX = w / 2 + (Math.random() - 0.5) * w * 0.4;
-      const centerY = h / 2 + (Math.random() - 0.5) * h * 0.4;
+    for (let i = 0; i < 300; i++) {
+      const centerX = w / 2 + (Math.random() - 0.5) * w * 0.3;
+      const centerY = h / 2 + (Math.random() - 0.5) * h * 0.3;
+      const color = starColors[Math.floor(Math.random() * starColors.length)];
+      // Mostly tiny stars, few bright ones
+      const sizeRoll = Math.random();
+      let size: number;
+      if (sizeRoll < 0.7) size = Math.random() * 0.8 + 0.3; // tiny
+      else if (sizeRoll < 0.92) size = Math.random() * 1.2 + 0.8; // medium
+      else size = Math.random() * 1.8 + 1.5; // bright
+
       stars.push({
         angle: Math.random() * Math.PI * 2,
-        radius: Math.random() * Math.max(w, h) * 0.7 + 10,
-        speed: (Math.random() * 0.0006 + 0.00008) * (Math.random() < 0.5 ? 1 : -1),
-        size: Math.random() < 0.05 ? Math.random() * 2.5 + 1.5 : Math.random() * 1.4 + 0.2,
-        opacity: Math.random() * 0.9 + 0.1,
+        radius: Math.random() * Math.max(w, h) * 0.65 + 20,
+        speed: (Math.random() * 0.0004 + 0.00005) * (Math.random() < 0.5 ? 1 : -1),
+        size,
+        opacity: Math.random() * 0.8 + 0.2,
         centerX,
         centerY,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        twinkleSpeed: Math.random() * 0.025 + 0.004,
+        ...color,
+        twinkleSpeed: Math.random() * 0.02 + 0.003,
         twinkleOffset: Math.random() * Math.PI * 2,
       });
     }
@@ -84,82 +94,60 @@ const StarField = () => {
       const angle = Math.PI * 0.15 + Math.random() * Math.PI * 0.2;
       shootingStars.push({
         x: Math.random() * w * 0.8 + w * 0.1,
-        y: Math.random() * h * 0.4,
-        length: 80 + Math.random() * 120,
-        speed: 8 + Math.random() * 6,
+        y: Math.random() * h * 0.3,
+        length: 100 + Math.random() * 150,
+        speed: 10 + Math.random() * 8,
         angle,
         opacity: 1,
         life: 0,
-        maxLife: 40 + Math.random() * 30,
-        width: 1 + Math.random() * 1.5,
+        maxLife: 35 + Math.random() * 25,
+        width: 1 + Math.random() * 1.2,
       });
     };
 
     let time = 0;
 
-    // Draw nebula/milky way - PINK tones
+    // Draw nebula - subtle elegant pink tones
     const drawNebula = (mx: number, my: number) => {
-      const px = mx * 25;
-      const py = my * 25;
+      const px = mx * 20;
+      const py = my * 20;
 
-      // Main milky way band - pink gradient diagonal
+      // Main milky way band
       const gradient1 = ctx.createLinearGradient(
-        w * 0.15 + px, h * 0.85 + py,
-        w * 0.85 + px, h * 0.15 + py
+        w * 0.1 + px, h * 0.9 + py,
+        w * 0.9 + px, h * 0.1 + py
       );
-      gradient1.addColorStop(0, "rgba(30, 10, 30, 0)");
-      gradient1.addColorStop(0.25, "rgba(80, 20, 60, 0.08)");
-      gradient1.addColorStop(0.4, "rgba(140, 40, 80, 0.14)");
-      gradient1.addColorStop(0.5, "rgba(180, 50, 100, 0.18)");
-      gradient1.addColorStop(0.6, "rgba(140, 40, 80, 0.14)");
-      gradient1.addColorStop(0.75, "rgba(80, 20, 60, 0.08)");
-      gradient1.addColorStop(1, "rgba(30, 10, 30, 0)");
+      gradient1.addColorStop(0, "rgba(20, 8, 30, 0)");
+      gradient1.addColorStop(0.3, "rgba(60, 15, 50, 0.06)");
+      gradient1.addColorStop(0.45, "rgba(100, 25, 70, 0.1)");
+      gradient1.addColorStop(0.5, "rgba(130, 35, 80, 0.12)");
+      gradient1.addColorStop(0.55, "rgba(100, 25, 70, 0.1)");
+      gradient1.addColorStop(0.7, "rgba(60, 15, 50, 0.06)");
+      gradient1.addColorStop(1, "rgba(20, 8, 30, 0)");
       ctx.fillStyle = gradient1;
       ctx.fillRect(0, 0, w, h);
 
-      // Core pink nebula glow
+      // Core nebula glow
       const nebula1 = ctx.createRadialGradient(
-        w * 0.5 + px * 1.5, h * 0.45 + py * 1.5, 0,
-        w * 0.5 + px * 1.5, h * 0.45 + py * 1.5, w * 0.4
+        w * 0.5 + px * 1.3, h * 0.42 + py * 1.3, 0,
+        w * 0.5 + px * 1.3, h * 0.42 + py * 1.3, w * 0.35
       );
-      nebula1.addColorStop(0, "rgba(220, 60, 120, 0.1)");
-      nebula1.addColorStop(0.2, "rgba(180, 40, 100, 0.07)");
-      nebula1.addColorStop(0.5, "rgba(120, 25, 70, 0.04)");
-      nebula1.addColorStop(1, "rgba(40, 10, 30, 0)");
+      nebula1.addColorStop(0, "rgba(180, 50, 100, 0.07)");
+      nebula1.addColorStop(0.3, "rgba(120, 30, 70, 0.04)");
+      nebula1.addColorStop(0.7, "rgba(60, 15, 40, 0.02)");
+      nebula1.addColorStop(1, "rgba(20, 5, 15, 0)");
       ctx.fillStyle = nebula1;
       ctx.fillRect(0, 0, w, h);
 
-      // Secondary pink-magenta cluster
+      // Deep blue accent for space depth
       const nebula2 = ctx.createRadialGradient(
-        w * 0.65 + px * 1.2, h * 0.35 + py * 1.2, 0,
-        w * 0.65 + px * 1.2, h * 0.35 + py * 1.2, w * 0.28
+        w * 0.7 + px * 0.8, h * 0.55 + py * 0.8, 0,
+        w * 0.7 + px * 0.8, h * 0.55 + py * 0.8, w * 0.25
       );
-      nebula2.addColorStop(0, "rgba(200, 50, 130, 0.08)");
-      nebula2.addColorStop(0.4, "rgba(150, 30, 90, 0.04)");
-      nebula2.addColorStop(1, "rgba(60, 10, 40, 0)");
+      nebula2.addColorStop(0, "rgba(30, 40, 100, 0.04)");
+      nebula2.addColorStop(0.5, "rgba(15, 20, 60, 0.02)");
+      nebula2.addColorStop(1, "rgba(5, 8, 20, 0)");
       ctx.fillStyle = nebula2;
-      ctx.fillRect(0, 0, w, h);
-
-      // Subtle warm rose dust
-      const nebula3 = ctx.createRadialGradient(
-        w * 0.3 + px, h * 0.6 + py, 0,
-        w * 0.3 + px, h * 0.6 + py, w * 0.22
-      );
-      nebula3.addColorStop(0, "rgba(200, 80, 100, 0.05)");
-      nebula3.addColorStop(0.5, "rgba(150, 50, 70, 0.025)");
-      nebula3.addColorStop(1, "rgba(80, 20, 30, 0)");
-      ctx.fillStyle = nebula3;
-      ctx.fillRect(0, 0, w, h);
-
-      // Faint deep space blue accent (for depth)
-      const nebula4 = ctx.createRadialGradient(
-        w * 0.75 + px * 0.8, h * 0.6 + py * 0.8, 0,
-        w * 0.75 + px * 0.8, h * 0.6 + py * 0.8, w * 0.2
-      );
-      nebula4.addColorStop(0, "rgba(40, 50, 120, 0.05)");
-      nebula4.addColorStop(0.6, "rgba(20, 25, 60, 0.02)");
-      nebula4.addColorStop(1, "rgba(10, 10, 30, 0)");
-      ctx.fillStyle = nebula4;
       ctx.fillRect(0, 0, w, h);
     };
 
@@ -173,8 +161,8 @@ const StarField = () => {
       const tailY = s.y - Math.sin(s.angle) * s.length * fadeIn * 0.5;
 
       const grad = ctx.createLinearGradient(tailX, tailY, s.x, s.y);
-      grad.addColorStop(0, `rgba(255, 180, 220, 0)`);
-      grad.addColorStop(0.6, `rgba(255, 200, 230, ${alpha * 0.4})`);
+      grad.addColorStop(0, `rgba(180, 200, 255, 0)`);
+      grad.addColorStop(0.5, `rgba(200, 210, 255, ${alpha * 0.3})`);
       grad.addColorStop(1, `rgba(255, 255, 255, ${alpha})`);
 
       ctx.beginPath();
@@ -185,15 +173,15 @@ const StarField = () => {
       ctx.lineCap = "round";
       ctx.stroke();
 
-      // Bright head glow
+      // Head glow
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.width * 2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.8})`;
+      ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.9})`;
       ctx.fill();
 
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.width * 5, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 200, 230, ${alpha * 0.15})`;
+      ctx.arc(s.x, s.y, s.width * 4, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(180, 200, 255, ${alpha * 0.12})`;
       ctx.fill();
     };
 
@@ -204,52 +192,67 @@ const StarField = () => {
       const mx = (mouseX - w / 2) / w;
       const my = (mouseY - h / 2) / h;
 
-      // Draw nebula background
       drawNebula(mx, my);
 
-      // Draw stars
+      // Draw stars with sharp rendering
       for (const star of stars) {
         star.angle += star.speed;
 
         const baseX = star.centerX + Math.cos(star.angle) * star.radius;
-        const baseY = star.centerY + Math.sin(star.angle) * star.radius * 0.4;
+        const baseY = star.centerY + Math.sin(star.angle) * star.radius * 0.35;
 
-        const parallaxStrength = star.radius * 0.05;
+        const parallaxStrength = star.radius * 0.04;
         const x = baseX + mx * parallaxStrength;
         const y = baseY + my * parallaxStrength;
 
         if (x < -10 || x > w + 10 || y < -10 || y > h + 10) continue;
 
-        const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.4 + 0.6;
+        const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.35 + 0.65;
         const alpha = star.opacity * twinkle;
 
-        // Star core
+        // Sharp star point
         ctx.beginPath();
         ctx.arc(x, y, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${star.color}, ${alpha})`;
+        ctx.fillStyle = `rgba(${star.r}, ${star.g}, ${star.b}, ${alpha})`;
         ctx.fill();
 
-        // Glow for brighter stars
-        if (star.size > 1.0) {
+        // Soft glow halo for medium+ stars
+        if (star.size > 0.8) {
           ctx.beginPath();
-          ctx.arc(x, y, star.size * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${star.color}, ${alpha * 0.1})`;
+          ctx.arc(x, y, star.size * 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${star.r}, ${star.g}, ${star.b}, ${alpha * 0.08})`;
           ctx.fill();
         }
 
-        // Cross-hair sparkle for largest stars
-        if (star.size > 2.0) {
-          const sparkleAlpha = alpha * 0.3;
+        // Cross sparkle for bright stars
+        if (star.size > 1.5) {
+          const sLen = star.size * 5;
+          const sparkleAlpha = alpha * 0.25;
+          ctx.strokeStyle = `rgba(${star.r}, ${star.g}, ${star.b}, ${sparkleAlpha})`;
+          ctx.lineWidth = 0.4;
+
           ctx.beginPath();
-          ctx.moveTo(x - star.size * 4, y);
-          ctx.lineTo(x + star.size * 4, y);
-          ctx.strokeStyle = `rgba(${star.color}, ${sparkleAlpha})`;
-          ctx.lineWidth = 0.5;
+          ctx.moveTo(x - sLen, y);
+          ctx.lineTo(x + sLen, y);
           ctx.stroke();
+
           ctx.beginPath();
-          ctx.moveTo(x, y - star.size * 4);
-          ctx.lineTo(x, y + star.size * 4);
+          ctx.moveTo(x, y - sLen);
+          ctx.lineTo(x, y + sLen);
           ctx.stroke();
+
+          // Diagonal sparkle for largest
+          if (star.size > 2.0) {
+            const dLen = sLen * 0.6;
+            ctx.beginPath();
+            ctx.moveTo(x - dLen, y - dLen);
+            ctx.lineTo(x + dLen, y + dLen);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x + dLen, y - dLen);
+            ctx.lineTo(x - dLen, y + dLen);
+            ctx.stroke();
+          }
         }
       }
 
@@ -257,7 +260,7 @@ const StarField = () => {
       nextShootingTime--;
       if (nextShootingTime <= 0) {
         spawnShootingStar();
-        nextShootingTime = 150 + Math.random() * 300;
+        nextShootingTime = 180 + Math.random() * 350;
       }
 
       for (let i = shootingStars.length - 1; i >= 0; i--) {
