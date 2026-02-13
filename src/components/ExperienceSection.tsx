@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import EditableText from "./EditableText";
-import { X, FileDown } from "lucide-react";
+import { X } from "lucide-react";
 import bankCertificate from "@/assets/bank-certificate.png";
 
 const experiences = [
@@ -25,14 +25,6 @@ const ExperienceSection = () => {
         >
           <EditableText tag="h2" defaultValue="Professional Experience" className="text-4xl md:text-5xl font-bold text-foreground" />
           <EditableText tag="p" defaultValue="Building Skills Through Real-World Impact" className="mt-4 text-lg text-muted-foreground" />
-          <a
-            href="/files/Hiba_CV.pdf"
-            download="Hiba_Saaida_CV.pdf"
-            className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-all text-sm font-medium"
-          >
-            <FileDown className="w-4 h-4" />
-            Download My CV
-          </a>
         </motion.div>
 
         <div className="space-y-6">

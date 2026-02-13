@@ -1,10 +1,5 @@
 import { useEffect, useRef } from "react";
 
-interface ShootingStar {
-  x: number; y: number; length: number; speed: number;
-  angle: number; opacity: number; life: number; maxLife: number; width: number;
-}
-
 const StarField = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -17,20 +12,21 @@ const StarField = () => {
     let animationId: number;
     let w = (canvas.width = window.innerWidth);
     let h = (canvas.height = window.innerHeight);
-    let mouseX = w / 2;
-    let mouseY = h / 2;
+    let mouseX = w / 2, mouseY = h / 2;
 
     const handleMouseMove = (e: MouseEvent) => { mouseX = e.clientX; mouseY = e.clientY; };
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Crisp, sharp stars with blue-white palette
+    // Mixed blue-white + pink stars
     const starColors = [
-      { r: 200, g: 220, b: 255 },
-      { r: 180, g: 200, b: 255 },
-      { r: 255, g: 255, b: 255 },
-      { r: 140, g: 180, b: 255 },
-      { r: 100, g: 150, b: 255 },
-      { r: 220, g: 230, b: 255 },
+      { r: 200, g: 220, b: 255 }, // blue-white
+      { r: 180, g: 200, b: 255 }, // light blue
+      { r: 255, g: 255, b: 255 }, // white
+      { r: 140, g: 180, b: 255 }, // blue
+      { r: 255, g: 180, b: 220 }, // pink
+      { r: 255, g: 150, b: 200 }, // deep pink
+      { r: 230, g: 160, b: 210 }, // soft pink
+      { r: 220, g: 230, b: 255 }, // cool white
     ];
 
     const stars: {
@@ -39,27 +35,30 @@ const StarField = () => {
       twinkleSpeed: number; twinkleOffset: number;
     }[] = [];
 
-    for (let i = 0; i < 250; i++) {
+    for (let i = 0; i < 280; i++) {
       const color = starColors[Math.floor(Math.random() * starColors.length)];
       const roll = Math.random();
-      const size = roll < 0.6 ? Math.random() * 0.6 + 0.4
-        : roll < 0.88 ? Math.random() * 1.0 + 0.9
-        : Math.random() * 1.6 + 1.6;
+      const size = roll < 0.55 ? Math.random() * 0.7 + 0.3
+        : roll < 0.85 ? Math.random() * 1.2 + 0.8
+        : Math.random() * 2.0 + 1.5;
 
       stars.push({
         angle: Math.random() * Math.PI * 2,
         radius: Math.random() * Math.max(w, h) * 0.6 + 30,
-        speed: (Math.random() * 0.0003 + 0.00008) * (Math.random() < 0.5 ? 1 : -1),
-        size,
-        opacity: Math.random() * 0.7 + 0.3,
+        speed: (Math.random() * 0.0003 + 0.00006) * (Math.random() < 0.5 ? 1 : -1),
+        size, opacity: Math.random() * 0.7 + 0.3,
         centerX: w / 2 + (Math.random() - 0.5) * w * 0.4,
         centerY: h / 2 + (Math.random() - 0.5) * h * 0.4,
         ...color,
-        twinkleSpeed: Math.random() * 0.015 + 0.004,
+        twinkleSpeed: Math.random() * 0.018 + 0.003,
         twinkleOffset: Math.random() * Math.PI * 2,
       });
     }
 
+    interface ShootingStar {
+      x: number; y: number; length: number; speed: number;
+      angle: number; opacity: number; life: number; maxLife: number; width: number;
+    }
     const shootingStars: ShootingStar[] = [];
     let nextShoot = 150 + Math.random() * 250;
     let time = 0;
@@ -67,21 +66,19 @@ const StarField = () => {
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
       time++;
-
       const mx = (mouseX - w / 2) / w;
       const my = (mouseY - h / 2) / h;
 
-      // Subtle nebula
+      // Nebula glow
       const px = mx * 15, py = my * 15;
       const g1 = ctx.createLinearGradient(w * 0.1 + px, h * 0.9 + py, w * 0.9 + px, h * 0.1 + py);
       g1.addColorStop(0, "rgba(20, 8, 30, 0)");
-      g1.addColorStop(0.45, "rgba(80, 20, 60, 0.08)");
-      g1.addColorStop(0.55, "rgba(80, 20, 60, 0.08)");
+      g1.addColorStop(0.4, "rgba(80, 20, 60, 0.07)");
+      g1.addColorStop(0.6, "rgba(80, 20, 60, 0.07)");
       g1.addColorStop(1, "rgba(20, 8, 30, 0)");
       ctx.fillStyle = g1;
       ctx.fillRect(0, 0, w, h);
 
-      // Draw stars - sharp and clear
       for (const s of stars) {
         s.angle += s.speed;
         const bx = s.centerX + Math.cos(s.angle) * s.radius;
@@ -94,24 +91,24 @@ const StarField = () => {
         const twinkle = Math.sin(time * s.twinkleSpeed + s.twinkleOffset) * 0.3 + 0.7;
         const alpha = s.opacity * twinkle;
 
-        // Sharp core
+        // Sharp core - no blur
         ctx.beginPath();
         ctx.arc(x, y, s.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${s.r}, ${s.g}, ${s.b}, ${alpha})`;
         ctx.fill();
 
-        // Glow for medium+
-        if (s.size > 0.8) {
+        // Soft glow halo
+        if (s.size > 0.7) {
           ctx.beginPath();
           ctx.arc(x, y, s.size * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${s.r}, ${s.g}, ${s.b}, ${alpha * 0.06})`;
+          ctx.fillStyle = `rgba(${s.r}, ${s.g}, ${s.b}, ${alpha * 0.05})`;
           ctx.fill();
         }
 
         // Cross sparkle for bright stars
-        if (s.size > 1.5) {
-          const len = s.size * 6;
-          ctx.strokeStyle = `rgba(${s.r}, ${s.g}, ${s.b}, ${alpha * 0.3})`;
+        if (s.size > 1.4) {
+          const len = s.size * 5;
+          ctx.strokeStyle = `rgba(${s.r}, ${s.g}, ${s.b}, ${alpha * 0.35})`;
           ctx.lineWidth = 0.5;
           ctx.beginPath(); ctx.moveTo(x - len, y); ctx.lineTo(x + len, y); ctx.stroke();
           ctx.beginPath(); ctx.moveTo(x, y - len); ctx.lineTo(x, y + len); ctx.stroke();
@@ -121,11 +118,11 @@ const StarField = () => {
       // Shooting stars
       nextShoot--;
       if (nextShoot <= 0) {
-        const angle = Math.PI * 0.15 + Math.random() * 0.2 * Math.PI;
         shootingStars.push({
           x: Math.random() * w * 0.8 + w * 0.1, y: Math.random() * h * 0.3,
           length: 100 + Math.random() * 120, speed: 12 + Math.random() * 8,
-          angle, opacity: 1, life: 0, maxLife: 30 + Math.random() * 20, width: 1 + Math.random(),
+          angle: Math.PI * 0.15 + Math.random() * 0.2 * Math.PI,
+          opacity: 1, life: 0, maxLife: 30 + Math.random() * 20, width: 1 + Math.random(),
         });
         nextShoot = 200 + Math.random() * 400;
       }
@@ -140,7 +137,7 @@ const StarField = () => {
         const tx = ss.x - Math.cos(ss.angle) * ss.length * Math.min(p * 4, 1);
         const ty = ss.y - Math.sin(ss.angle) * ss.length * Math.min(p * 4, 1) * 0.5;
         const grad = ctx.createLinearGradient(tx, ty, ss.x, ss.y);
-        grad.addColorStop(0, `rgba(180, 200, 255, 0)`);
+        grad.addColorStop(0, `rgba(255, 180, 220, 0)`);
         grad.addColorStop(1, `rgba(255, 255, 255, ${a})`);
         ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(ss.x, ss.y);
         ctx.strokeStyle = grad; ctx.lineWidth = ss.width; ctx.lineCap = "round"; ctx.stroke();
@@ -153,7 +150,6 @@ const StarField = () => {
     };
 
     draw();
-
     const handleResize = () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; };
     window.addEventListener("resize", handleResize);
     return () => { cancelAnimationFrame(animationId); window.removeEventListener("resize", handleResize); window.removeEventListener("mousemove", handleMouseMove); };
