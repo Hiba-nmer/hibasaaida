@@ -8,6 +8,11 @@ import workResearch from "@/assets/work-research.jpg";
 import workVolunteer from "@/assets/work-volunteer.jpg";
 import workDesign from "@/assets/work-design.jpg";
 import workProposal from "@/assets/work-proposal.jpg";
+import designLvBag from "@/assets/design-lv-bag.jpg";
+import designYoyoso from "@/assets/design-yoyoso.jpg";
+import designLibre from "@/assets/design-libre.jpg";
+import designBoeing from "@/assets/design-boeing.jpg";
+import designChanel from "@/assets/design-chanel.png";
 
 const projects = [
   { title: "CleanSwift Marketing Plan", desc: "Comprehensive PowerPoint presentation showcasing marketing strategy and business planning", file: "/files/CleanSwift_Marketing_Plan.pptx", image: workCleanswift },
@@ -15,8 +20,15 @@ const projects = [
   { title: "Logo Guidelines", desc: "Brand identity guidelines and logo usage specifications for consistent branding", file: "/files/Logo_Guidelines.pdf", image: logoLarge },
   { title: "Marketing Research Methodology", desc: "Research framework and methodology for comprehensive market analysis", file: "/files/Marketing_Research_Methodology.pdf", image: workResearch },
   { title: "Volunteer at Work Leadership", desc: "Presentation showcasing leadership skills and volunteer experience in professional competition", image: workVolunteer },
-  { title: "Graphic Design Portfolio", desc: "Creative design portfolio showcasing visual identity, branding, and digital artwork", image: workDesign },
   { title: "Project Proposal Presentation", desc: "AI-powered project proposal presentation showcasing innovative business ideas", link: "https://app.presentations.ai/view/Q5ysg6", image: workProposal },
+];
+
+const designWorks = [
+  { title: "LV Capucines — Product Ad", image: designLvBag },
+  { title: "YOYOSO — Product Promotion", image: designYoyoso },
+  { title: "YSL Libre — Perfume Ad", image: designLibre },
+  { title: "Boeing — Vintage Poster", image: designBoeing },
+  { title: "Chanel Coco Noir — Ad Design", image: designChanel },
 ];
 
 const WorkSection = () => {
@@ -41,7 +53,9 @@ const WorkSection = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="bg-card/80 backdrop-blur-sm border border-border rounded-xl overflow-hidden hover:bg-card hover:border-primary/40 transition-all duration-300 group cursor-pointer"
+              whileHover={{ rotateY: -4, rotateX: 3, scale: 1.03 }}
+              style={{ perspective: 800, transformStyle: "preserve-3d" }}
+              className="bg-card/80 backdrop-blur-sm border border-border rounded-xl overflow-hidden hover:bg-card hover:border-primary/40 transition-all duration-300 group cursor-pointer shadow-lg hover:shadow-primary/20 hover:shadow-2xl"
               onClick={() => {
                 if (project.file) {
                   const a = document.createElement("a");
@@ -53,12 +67,11 @@ const WorkSection = () => {
                 }
               }}
             >
-              {/* Card Image */}
               <div className="w-full h-48 overflow-hidden bg-secondary/50 flex items-center justify-center">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
 
@@ -77,6 +90,43 @@ const WorkSection = () => {
                     <span>View Presentation</span>
                   </div>
                 )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Graphic Design Portfolio */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mt-24 mb-12"
+        >
+          <EditableText tag="h3" defaultValue="Graphic Design Portfolio" className="text-3xl md:text-4xl font-bold text-foreground" />
+          <EditableText tag="p" defaultValue="Creative visual designs & brand advertisements" className="mt-3 text-muted-foreground" />
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {designWorks.map((work, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
+              whileHover={{ rotateY: -4, rotateX: 3, scale: 1.03 }}
+              style={{ perspective: 800, transformStyle: "preserve-3d" }}
+              className="bg-card/80 backdrop-blur-sm border border-border rounded-xl overflow-hidden hover:bg-card hover:border-primary/40 transition-all duration-300 group shadow-lg hover:shadow-primary/20 hover:shadow-2xl"
+            >
+              <div className="w-full h-56 overflow-hidden">
+                <img
+                  src={work.image}
+                  alt={work.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-4">
+                <EditableText tag="h4" defaultValue={work.title} className="text-sm font-bold text-foreground" />
               </div>
             </motion.div>
           ))}
