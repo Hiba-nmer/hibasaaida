@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import EditableText from "./EditableText";
 import { Mail, Phone, MapPin } from "lucide-react";
+import crownImage from "@/assets/crown.png";
 
 const ContactSection = () => {
   return (
-    <section id="contact" className="py-24 px-6">
-      <div className="max-w-4xl mx-auto">
+    <section id="contact" className="py-24 px-6 relative overflow-hidden">
+      <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -83,6 +84,17 @@ const ContactSection = () => {
           </button>
         </motion.form>
       </div>
+
+      {/* Crown image at bottom */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 0.25, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="flex justify-center mt-16"
+      >
+        <img src={crownImage} alt="" className="w-64 md:w-80 h-auto object-contain" />
+      </motion.div>
     </section>
   );
 };

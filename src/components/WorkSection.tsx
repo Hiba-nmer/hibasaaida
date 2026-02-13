@@ -2,9 +2,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import EditableText from "./EditableText";
 import { Download, ExternalLink, X } from "lucide-react";
-import logoLarge from "@/assets/logo-large.webp";
 import workCleanswift from "@/assets/work-cleanswift.jpg";
 import workLaundry from "@/assets/work-laundry.jpg";
+import workLogo from "@/assets/work-logo.jpg";
 import workResearch from "@/assets/work-research.jpg";
 import workVolunteer from "@/assets/work-volunteer.jpg";
 import workProposal from "@/assets/work-proposal.jpg";
@@ -17,7 +17,7 @@ import designChanel from "@/assets/design-chanel.png";
 const projects = [
   { title: "CleanSwift Marketing Plan", desc: "Comprehensive PowerPoint presentation showcasing marketing strategy and business planning", file: "/files/CleanSwift_Marketing_Plan.pptx", image: workCleanswift },
   { title: "Laundry App Marketing Plan", desc: "Detailed marketing strategy and business plan for mobile laundry application", file: "/files/Laundry_App_Marketing_Plan.pdf", image: workLaundry },
-  { title: "Logo Guidelines", desc: "Brand identity guidelines and logo usage specifications for consistent branding", file: "/files/Logo_Guidelines.pdf", image: logoLarge },
+  { title: "Logo Guidelines", desc: "Brand identity guidelines and logo usage specifications for consistent branding", file: "/files/Logo_Guidelines.pdf", image: workLogo },
   { title: "Marketing Research Methodology", desc: "Research framework and methodology for comprehensive market analysis", file: "/files/Marketing_Research_Methodology.pdf", image: workResearch },
   { title: "Volunteer at Work Leadership", desc: "Presentation showcasing leadership skills and volunteer experience in professional competition", image: workVolunteer },
   { title: "Project Proposal Presentation", desc: "AI-powered project proposal presentation showcasing innovative business ideas", link: "https://app.presentations.ai/view/Q5ysg6", image: workProposal },
