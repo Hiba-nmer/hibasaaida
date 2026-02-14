@@ -85,15 +85,15 @@ const ContactSection = () => {
         </motion.form>
       </div>
 
-      {/* Crown image at bottom */}
+      {/* Crown image - large and visible */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 0.25, y: 0 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="flex justify-center mt-16"
+        className="flex justify-center mt-20"
       >
-        <img src={crownImage} alt="" className="w-64 md:w-80 h-auto object-contain" />
+        <img src={crownImage} alt="Crown" className="w-80 md:w-[28rem] h-auto object-contain" />
       </motion.div>
     </section>
   );

@@ -12,10 +12,10 @@ const skillGroups = [
 const SkillsSection = () => {
   return (
     <section id="skills" className="py-24 px-6 relative overflow-hidden">
-      {/* Flowers background */}
+      {/* Flowers background - fully visible like original */}
       <div className="absolute inset-0">
-        <img src={flowersSky} alt="" className="w-full h-full object-cover opacity-10" />
-        <div className="absolute inset-0 bg-background/85" />
+        <img src={flowersSky} alt="" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-background/60" />
       </div>
 
       <div className="max-w-6xl mx-auto relative z-10">

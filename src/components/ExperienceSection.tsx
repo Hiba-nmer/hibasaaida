@@ -5,10 +5,55 @@ import { X, Download } from "lucide-react";
 import bankCertificate from "@/assets/bank-certificate.png";
 
 const experiences = [
-  { num: "01", company: "Bank of Palestine", role: "Marketing Training Program", period: "2024", tags: ["Marketing", "Events", "Banking"], desc: "Completed comprehensive training program and actively participated in marketing events, gaining valuable industry experience in banking sector marketing.", certificate: bankCertificate },
-  { num: "02", company: "Social Media Manager", role: "Freelance Digital Marketing", period: "2023 – Present", tags: ["Social Media", "Project Management", "Client Relations"], desc: "Enhanced social media engagement by 10% and optimized audience interaction. Managed project timelines effectively, reducing delivery times by 30%." },
-  { num: "03", company: "English Teacher", role: "Rowad Al-Ghad Institute", period: "2023", tags: ["Education", "Communication", "Leadership"], desc: "Developed innovative support systems for students to boost confidence and improve grades. Successfully maintained full class attendance through engaging teaching strategies." },
-  { num: "04", company: "Career Preparation", role: "University Training Program", period: "2024", tags: ["Career Ready", "Digital Skills", "Professional Growth"], desc: "Completed essential workplace preparation courses: Internet Safety, Introduction to Gen AI, Self-Control Development, and Self-Confidence Enhancement." },
+  {
+    num: "01",
+    company: "Bank of Palestine",
+    role: "Marketing Training Program",
+    period: "April 2025 – Present",
+    tags: ["Marketing", "Events", "Banking"],
+    desc: "Completed an intensive training program and represented the Bank in promotional events. Attracted and engaged potential clients by distributing materials, explaining services, and delivering tailored marketing messages. Achieved outstanding results during one promotional day by successfully opening 35 new accounts.",
+    certificate: bankCertificate,
+  },
+  {
+    num: "02",
+    company: "Roya Palestinian Organization",
+    role: "Life Skills Trainer",
+    period: "July 2025 – Present",
+    tags: ["Training", "Youth Development", "Communication"],
+    desc: "Completed a six-day training program specializing as a youth life skills trainer. Currently working with community organizations to train teenagers in communication, self-confidence, and time management. Redesigned the training program to include practical communication simulations.",
+  },
+  {
+    num: "03",
+    company: "Career Readiness Training",
+    role: "EFE Palestine & Palestine Technical University",
+    period: "2024",
+    tags: ["Career Ready", "Employability", "Professional Growth"],
+    desc: "Participated in a career readiness program aimed at preparing graduating students for the labor market. Acquired practical employability skills such as communication, teamwork, problem-solving, and professional ethics.",
+  },
+  {
+    num: "04",
+    company: "Yes Style Marketing Company",
+    role: "Marketing Intern – Tulkarm",
+    period: "April 2024 – 2025",
+    tags: ["SWOT", "PESTEL", "Campaign Planning"],
+    desc: "Created a full marketing plan using SWOT and PESTEL analysis. Applied segmentation, targeting, and positioning strategies. Helped develop new approaches to engage customers and expand market reach.",
+  },
+  {
+    num: "05",
+    company: "Social Media Manager",
+    role: "Freelance Digital Marketing",
+    period: "Mar 2021 – Dec 2022",
+    tags: ["Social Media", "Project Management", "Client Relations"],
+    desc: "Enhanced social media engagement by 10% and optimized audience interaction, boosting customer satisfaction. Managed project timelines effectively, reducing delivery times by 30%.",
+  },
+  {
+    num: "06",
+    company: "English Teacher",
+    role: "Teaching Institute – Tulkarm",
+    period: "Jan 2023 – 2024",
+    tags: ["Education", "Communication", "Leadership"],
+    desc: "Developed innovative support systems for students to boost confidence and improve grades. Successfully maintained full class attendance through engaging teaching strategies.",
+  },
 ];
 
 const ExperienceSection = () => {
@@ -29,7 +74,6 @@ const ExperienceSection = () => {
 
         {/* CV-style timeline */}
         <div className="relative">
-          {/* Timeline line */}
           <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-primary/20 transform md:-translate-x-px" />
 
           <div className="space-y-12">
@@ -44,10 +88,8 @@ const ExperienceSection = () => {
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                   className={`relative flex flex-col md:flex-row ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} items-start gap-8`}
                 >
-                  {/* Timeline dot */}
                   <div className="absolute left-6 md:left-1/2 w-3 h-3 rounded-full bg-primary border-2 border-background transform -translate-x-1.5 md:-translate-x-1.5 mt-8 z-10" />
 
-                  {/* Content card */}
                   <div className={`ml-14 md:ml-0 md:w-[calc(50%-2rem)] ${isLeft ? 'md:pr-8' : 'md:pl-8'}`}>
                     <div className="bg-card/80 backdrop-blur-sm border border-border rounded-xl p-6 hover:bg-card hover:border-primary/30 transition-all duration-300 group">
                       <div className="flex items-center justify-between mb-3">
