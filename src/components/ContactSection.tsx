@@ -6,6 +6,12 @@ import crownImage from "@/assets/crown.png";
 const ContactSection = () => {
   return (
     <section id="contact" className="py-24 px-6 relative overflow-hidden">
+      {/* Crown background - like flowers in skills */}
+      <div className="absolute inset-0">
+        <img src={crownImage} alt="" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-background/70" />
+      </div>
+
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -84,17 +90,6 @@ const ContactSection = () => {
           </button>
         </motion.form>
       </div>
-
-      {/* Crown image - large and visible */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="flex justify-center mt-20"
-      >
-        <img src={crownImage} alt="Crown" className="w-80 md:w-[28rem] h-auto object-contain" />
-      </motion.div>
     </section>
   );
 };

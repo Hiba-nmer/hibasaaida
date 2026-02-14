@@ -7,7 +7,6 @@ import AchievementsSection from "@/components/AchievementsSection";
 import WorkSection from "@/components/WorkSection";
 import SkillsSection from "@/components/SkillsSection";
 import ContactSection from "@/components/ContactSection";
-import StarField from "@/components/StarField";
 import LoadingScreen from "@/components/LoadingScreen";
 
 const Index = () => {
@@ -21,7 +20,6 @@ const Index = () => {
   return (
     <div className="min-h-screen space-bg">
       <LoadingScreen isLoading={isLoading} />
-      <StarField />
       <Navbar />
       <HeroSection />
       <AboutSection />
