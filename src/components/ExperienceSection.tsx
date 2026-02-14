@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import EditableText from "./EditableText";
-import { X, Download } from "lucide-react";
+import { X } from "lucide-react";
 import bankCertificate from "@/assets/bank-certificate.png";
 
 const experiences = [
@@ -121,22 +121,6 @@ const ExperienceSection = () => {
             })}
           </div>
 
-          {/* Download CV button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mt-12"
-          >
-            <a
-              href="/files/Hiba_CV.pdf"
-              download="Hiba_CV.pdf"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
-            >
-              <Download className="w-4 h-4" />
-              Download My CV
-            </a>
-          </motion.div>
         </div>
       </div>
 
