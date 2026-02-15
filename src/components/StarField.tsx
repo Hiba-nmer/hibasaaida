@@ -61,9 +61,9 @@ const StarField = () => {
         else color = [235, 235, 255];
 
         const radius = Math.random() * maxR;
-        // Slower stars further out (like real rotation)
-        const baseSpeed = 0.0001 + Math.random() * 0.0003;
-        const speed = baseSpeed * (1 + 200 / (radius + 50));
+        // Very slow gentle rotation
+        const baseSpeed = 0.000008 + Math.random() * 0.000015;
+        const speed = baseSpeed * (1 + 80 / (radius + 100));
 
         stars.push({
           angle: Math.random() * Math.PI * 2,
@@ -106,6 +106,11 @@ const StarField = () => {
 
     let lastTime = performance.now();
     let shootTimer = 0;
+    let lastClickTime = 0;
+
+    const onClick = () => {
+      lastClickTime = performance.now();
+    };
 
     const draw = (now: number) => {
       const dt = Math.min(now - lastTime, 50);
@@ -137,19 +142,34 @@ const StarField = () => {
       }
 
       // Mouse offset for parallax
-      const mx = (mouseRef.current.x - centerX) / centerX; // -1 to 1
+      const mx = (mouseRef.current.x - centerX) / centerX;
       const my = (mouseRef.current.y - centerY) / centerY;
+
+      // Mouse click burst effect
+      const clickAge = now - lastClickTime;
+      const clickActive = clickAge < 600;
+      const clickWave = clickActive ? Math.sin(clickAge / 600 * Math.PI) * 15 : 0;
 
       // Draw rotating stars
       for (const star of stars) {
         star.angle += star.speed * dt;
 
-        const parallaxFactor = star.radius / (Math.sqrt(w * w + h * h) / 2) * 0.5;
-        const px = mx * parallaxFactor * 30;
-        const py = my * parallaxFactor * 30;
+        const parallaxFactor = star.radius / (Math.sqrt(w * w + h * h) / 2);
+        const px = mx * parallaxFactor * 60;
+        const py = my * parallaxFactor * 60;
 
-        const sx = centerX + Math.cos(star.angle) * star.radius + px;
-        const sy = centerY + Math.sin(star.angle) * star.radius + py;
+        // Click ripple push
+        let cpx = 0, cpy = 0;
+        if (clickActive) {
+          const cdx = Math.cos(star.angle) * star.radius;
+          const cdy = Math.sin(star.angle) * star.radius;
+          const cdist = Math.sqrt(cdx * cdx + cdy * cdy) || 1;
+          cpx = (cdx / cdist) * clickWave * parallaxFactor;
+          cpy = (cdy / cdist) * clickWave * parallaxFactor;
+        }
+
+        const sx = centerX + Math.cos(star.angle) * star.radius + px + cpx;
+        const sy = centerY + Math.sin(star.angle) * star.radius + py + cpy;
 
         // Skip if off screen
         if (sx < -10 || sx > w + 10 || sy < -10 || sy > h + 10) continue;
@@ -206,11 +226,13 @@ const StarField = () => {
     animationId = requestAnimationFrame(draw);
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("click", onClick);
 
     return () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("click", onClick);
     };
   }, []);
 
