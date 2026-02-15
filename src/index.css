@@ -55,7 +55,7 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', sans-serif;
-    background: url('/images/starfield-bg.png') center center / cover no-repeat fixed;
+    background: hsl(260 30% 4%);
   }
 
   h1, h2, h3, h4, h5, h6 {
