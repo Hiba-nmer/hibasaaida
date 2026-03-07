@@ -114,7 +114,7 @@ const StarField = () => {
       clickX = e.clientX;
       clickY = e.clientY;
     };
-...
+
       // Mouse click burst effect - push stars away from click point
       const clickAge = now - lastClickTime;
       const clickActive = clickAge < 800;
