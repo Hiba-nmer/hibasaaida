@@ -137,8 +137,8 @@ const StarField = () => {
 
       // Click burst
       const clickAge = now - lastClickTime;
-      const clickActive = clickAge < 800;
-      const clickWave = clickActive ? Math.sin((clickAge / 800) * Math.PI) : 0;
+      const clickActive = clickAge < 1200;
+      const clickWave = clickActive ? Math.sin((clickAge / 1200) * Math.PI) * Math.exp(-clickAge / 800) : 0;
 
       // Draw stars
       for (const star of stars) {
@@ -151,14 +151,15 @@ const StarField = () => {
         const baseX = centerX + Math.cos(star.angle) * star.radius + px;
         const baseY = centerY + Math.sin(star.angle) * star.radius + py;
 
-        // Push stars away from click point
+        // Gentle push away from click point
         let cpx = 0, cpy = 0;
         if (clickActive) {
           const dx = baseX - clickX;
           const dy = baseY - clickY;
           const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          const maxDist = 400;
-          const strength = Math.max(0, 1 - dist / maxDist) * clickWave * 50;
+          const maxDist = 500;
+          const falloff = Math.max(0, 1 - dist / maxDist);
+          const strength = falloff * falloff * clickWave * 18;
           cpx = (dx / dist) * strength;
           cpy = (dy / dist) * strength;
         }
