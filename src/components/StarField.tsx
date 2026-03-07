@@ -155,8 +155,8 @@ const StarField = () => {
         star.angle += star.speed * dt;
 
         const parallaxFactor = star.radius / (Math.sqrt(w * w + h * h) / 2);
-        const px = mx * parallaxFactor * 60;
-        const py = my * parallaxFactor * 60;
+        const px = mx * parallaxFactor * 120;
+        const py = my * parallaxFactor * 120;
 
         // Click ripple push
         let cpx = 0, cpy = 0;
