@@ -13,7 +13,6 @@ const StarField = () => {
     let animationId: number;
     let w = 0, h = 0;
 
-    // Stars orbit around the center of the screen
     interface Star {
       angle: number;
       radius: number;
@@ -25,12 +24,9 @@ const StarField = () => {
     }
 
     interface ShootingStar {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      life: number;
-      maxLife: number;
+      x: number; y: number;
+      vx: number; vy: number;
+      life: number; maxLife: number;
       size: number;
       color: [number, number, number];
     }
@@ -61,14 +57,12 @@ const StarField = () => {
         else color = [235, 235, 255];
 
         const radius = Math.random() * maxR;
-        // Very slow gentle rotation
         const baseSpeed = 0.000008 + Math.random() * 0.000015;
         const speed = baseSpeed * (1 + 80 / (radius + 100));
 
         stars.push({
           angle: Math.random() * Math.PI * 2,
-          radius,
-          speed,
+          radius, speed,
           size: Math.random() * 1.2 + 0.2,
           brightness: Math.random() * 0.5 + 0.5,
           twinkleSpeed: Math.random() * 3 + 1,
@@ -80,21 +74,14 @@ const StarField = () => {
     const spawnShootingStar = (): ShootingStar => {
       const side = Math.floor(Math.random() * 2);
       let x: number, y: number;
-      if (side === 0) {
-        x = Math.random() * w;
-        y = -5;
-      } else {
-        x = w + 5;
-        y = Math.random() * h * 0.5;
-      }
+      if (side === 0) { x = Math.random() * w; y = -5; }
+      else { x = w + 5; y = Math.random() * h * 0.5; }
       const angle = Math.PI * 0.6 + Math.random() * 0.5;
       const speed = 4 + Math.random() * 6;
       return {
         x, y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        life: 0,
-        maxLife: 40 + Math.random() * 60,
+        vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+        life: 0, maxLife: 40 + Math.random() * 60,
         size: Math.random() * 1.5 + 0.8,
         color: Math.random() > 0.3 ? [255, 255, 255] : [255, 190, 220],
       };
@@ -107,9 +94,12 @@ const StarField = () => {
     let lastTime = performance.now();
     let shootTimer = 0;
     let lastClickTime = 0;
+    let clickX = 0, clickY = 0;
 
-    const onClick = () => {
+    const onClick = (e: MouseEvent) => {
       lastClickTime = performance.now();
+      clickX = e.clientX;
+      clickY = e.clientY;
     };
 
     const draw = (now: number) => {
@@ -141,16 +131,16 @@ const StarField = () => {
         ctx.fillRect(0, 0, w, h);
       }
 
-      // Mouse offset for parallax
+      // Mouse parallax
       const mx = (mouseRef.current.x - centerX) / centerX;
       const my = (mouseRef.current.y - centerY) / centerY;
 
-      // Mouse click burst effect
+      // Click burst
       const clickAge = now - lastClickTime;
-      const clickActive = clickAge < 600;
-      const clickWave = clickActive ? Math.sin(clickAge / 600 * Math.PI) * 15 : 0;
+      const clickActive = clickAge < 800;
+      const clickWave = clickActive ? Math.sin((clickAge / 800) * Math.PI) : 0;
 
-      // Draw rotating stars
+      // Draw stars
       for (const star of stars) {
         star.angle += star.speed * dt;
 
@@ -158,20 +148,24 @@ const StarField = () => {
         const px = mx * parallaxFactor * 120;
         const py = my * parallaxFactor * 120;
 
-        // Click ripple push
+        const baseX = centerX + Math.cos(star.angle) * star.radius + px;
+        const baseY = centerY + Math.sin(star.angle) * star.radius + py;
+
+        // Push stars away from click point
         let cpx = 0, cpy = 0;
         if (clickActive) {
-          const cdx = Math.cos(star.angle) * star.radius;
-          const cdy = Math.sin(star.angle) * star.radius;
-          const cdist = Math.sqrt(cdx * cdx + cdy * cdy) || 1;
-          cpx = (cdx / cdist) * clickWave * parallaxFactor;
-          cpy = (cdy / cdist) * clickWave * parallaxFactor;
+          const dx = baseX - clickX;
+          const dy = baseY - clickY;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const maxDist = 400;
+          const strength = Math.max(0, 1 - dist / maxDist) * clickWave * 50;
+          cpx = (dx / dist) * strength;
+          cpy = (dy / dist) * strength;
         }
 
-        const sx = centerX + Math.cos(star.angle) * star.radius + px + cpx;
-        const sy = centerY + Math.sin(star.angle) * star.radius + py + cpy;
+        const sx = baseX + cpx;
+        const sy = baseY + cpy;
 
-        // Skip if off screen
         if (sx < -10 || sx > w + 10 || sy < -10 || sy > h + 10) continue;
 
         const twinkle = star.brightness + Math.sin(now * 0.001 * star.twinkleSpeed) * 0.2;
@@ -200,7 +194,6 @@ const StarField = () => {
         const alpha = progress < 0.1 ? progress * 10 : Math.max(0, 1 - (progress - 0.3) / 0.7);
         const [r, g, b] = s.color;
 
-        // Tail
         const tailLen = 6;
         for (let i = 0; i < tailLen; i++) {
           const ta = alpha * (1 - i / tailLen) * 0.6;
@@ -212,7 +205,6 @@ const StarField = () => {
           ctx.fill();
         }
 
-        // Head
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
