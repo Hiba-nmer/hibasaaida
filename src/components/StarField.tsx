@@ -107,48 +107,19 @@ const StarField = () => {
     let lastTime = performance.now();
     let shootTimer = 0;
     let lastClickTime = 0;
+    let clickX = 0, clickY = 0;
 
-    const onClick = () => {
+    const onClick = (e: MouseEvent) => {
       lastClickTime = performance.now();
+      clickX = e.clientX;
+      clickY = e.clientY;
     };
-
-    const draw = (now: number) => {
-      const dt = Math.min(now - lastTime, 50);
-      lastTime = now;
-      shootTimer += dt;
-
-      ctx.clearRect(0, 0, w, h);
-
-      // Nebula background
-      const nebulas = [
-        { cx: 0.25, cy: 0.4, r: 0.5, color: "rgba(120, 40, 80, 0.06)" },
-        { cx: 0.72, cy: 0.25, r: 0.4, color: "rgba(80, 40, 120, 0.05)" },
-        { cx: 0.5, cy: 0.72, r: 0.5, color: "rgba(100, 30, 70, 0.04)" },
-        { cx: 0.15, cy: 0.8, r: 0.32, color: "rgba(90, 50, 130, 0.035)" },
-        { cx: 0.85, cy: 0.6, r: 0.35, color: "rgba(130, 40, 90, 0.04)" },
-      ];
-      const t = now * 0.0001;
-      for (const n of nebulas) {
-        const ox = Math.sin(t + n.cx * 20) * 20;
-        const oy = Math.cos(t * 1.3 + n.cy * 20) * 15;
-        const g = ctx.createRadialGradient(
-          n.cx * w + ox, n.cy * h + oy, 0,
-          n.cx * w + ox, n.cy * h + oy, n.r * w
-        );
-        g.addColorStop(0, n.color);
-        g.addColorStop(1, "transparent");
-        ctx.fillStyle = g;
-        ctx.fillRect(0, 0, w, h);
-      }
-
-      // Mouse offset for parallax
-      const mx = (mouseRef.current.x - centerX) / centerX;
-      const my = (mouseRef.current.y - centerY) / centerY;
-
-      // Mouse click burst effect
+...
+      // Mouse click burst effect - push stars away from click point
       const clickAge = now - lastClickTime;
-      const clickActive = clickAge < 600;
-      const clickWave = clickActive ? Math.sin(clickAge / 600 * Math.PI) * 15 : 0;
+      const clickActive = clickAge < 800;
+      const clickProgress = clickAge / 800;
+      const clickWave = clickActive ? Math.sin(clickProgress * Math.PI) : 0;
 
       // Draw rotating stars
       for (const star of stars) {
@@ -158,14 +129,19 @@ const StarField = () => {
         const px = mx * parallaxFactor * 120;
         const py = my * parallaxFactor * 120;
 
-        // Click ripple push
+        const baseX = centerX + Math.cos(star.angle) * star.radius + px;
+        const baseY = centerY + Math.sin(star.angle) * star.radius + py;
+
+        // Click ripple - push stars away from click position
         let cpx = 0, cpy = 0;
         if (clickActive) {
-          const cdx = Math.cos(star.angle) * star.radius;
-          const cdy = Math.sin(star.angle) * star.radius;
-          const cdist = Math.sqrt(cdx * cdx + cdy * cdy) || 1;
-          cpx = (cdx / cdist) * clickWave * parallaxFactor;
-          cpy = (cdy / cdist) * clickWave * parallaxFactor;
+          const dx = baseX - clickX;
+          const dy = baseY - clickY;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const maxDist = 400;
+          const strength = Math.max(0, 1 - dist / maxDist) * clickWave * 50;
+          cpx = (dx / dist) * strength;
+          cpy = (dy / dist) * strength;
         }
 
         const sx = centerX + Math.cos(star.angle) * star.radius + px + cpx;
