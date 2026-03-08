@@ -31,7 +31,7 @@ const Index = () => {
       <SkillsSection />
       <ContactSection />
       <footer className="relative py-8 text-center border-t border-border">
-        <p className="text-sm text-muted-foreground">© 2025 Hiba Saaida — All Rights Reserved</p>
+        <p className="text-sm text-muted-foreground">© 2025 Hiba Saaydeh — All Rights Reserved</p>
       </footer>
     </div>
   );
