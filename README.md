@@ -2,8 +2,7 @@
 
 ## Project info
 
-**URL**: https: loveable. 
-dev/projects/REPLACE_WITH_PROJECT_ID
+**URL**: https: loveable.dev/projects/REPLACE_WITH_PROJECT_ID
 
 ## How can I edit this code?
 
