@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import EditableText from "./EditableText";
 import { Download, ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
 import workCleanswift from "@/assets/work-cleanswift.jpg";
 import workLaundry from "@/assets/work-laundry.jpg";
@@ -40,8 +39,8 @@ const WorkSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <EditableText tag="h2" defaultValue="My Work" className="text-4xl md:text-5xl font-bold text-foreground" />
-          <EditableText tag="p" defaultValue="Projects & Documents" className="mt-4 text-lg text-muted-foreground" />
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground">My Work</h2>
+          <p className="mt-4 text-lg text-muted-foreground">Projects & Documents</p>
         </motion.div>
 
         {/* Project cards with 3D perspective */}
@@ -74,8 +73,8 @@ const WorkSection = () => {
                   />
                 </div>
                 <div className="p-6">
-                  <EditableText tag="h3" defaultValue={project.title} className="text-lg font-bold text-foreground mb-2" />
-                  <EditableText tag="p" defaultValue={project.desc} className="text-sm text-muted-foreground leading-relaxed" />
+                  <h3 className="text-lg font-bold text-foreground mb-2">{project.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{project.desc}</p>
                   {project.file && (
                     <div className="mt-4 flex items-center gap-2 text-primary text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                       <Download className="w-4 h-4" />

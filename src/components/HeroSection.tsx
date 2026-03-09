@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import EditableText from "./EditableText";
 
 const HeroSection = () => {
   return (
@@ -24,13 +23,11 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <EditableText
-            tag="h1"
-            defaultValue="Turning Ideas Into"
-            className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight text-foreground"
-          />
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight text-foreground">
+            Turning Ideas Into
+          </h1>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-gradient mt-2">
-            <EditableText tag="span" defaultValue="Impact" className="text-gradient" />
+            <span className="text-gradient">Impact</span>
           </h1>
         </motion.div>
 
@@ -40,16 +37,12 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="mt-8 space-y-2"
         >
-          <EditableText
-            tag="p"
-            defaultValue="E-Commerce & Digital Marketing Specialist"
-            className="text-lg md:text-xl text-foreground/80 font-medium"
-          />
-          <EditableText
-            tag="p"
-            defaultValue="Creative Strategist | Designer | Web Builder"
-            className="text-base md:text-lg text-muted-foreground"
-          />
+          <p className="text-lg md:text-xl text-foreground/80 font-medium">
+            E-Commerce & Digital Marketing Specialist
+          </p>
+          <p className="text-base md:text-lg text-muted-foreground">
+            Creative Strategist | Designer | Web Builder
+          </p>
         </motion.div>
 
         <motion.div
