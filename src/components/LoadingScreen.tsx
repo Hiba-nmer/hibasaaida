@@ -29,7 +29,7 @@ const LoadingScreen = ({ isLoading }: LoadingScreenProps) => {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="text-5xl md:text-7xl font-bold text-white font-serif"
             >
-              Hiba Saaida
+              Hiba Saaydeh
             </motion.h1>
             <motion.div
               initial={{ width: 0 }}
