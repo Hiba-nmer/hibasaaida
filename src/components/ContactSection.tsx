@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import EditableText from "./EditableText";
 import { Mail, Phone, MapPin } from "lucide-react";
 import crownImage from "@/assets/crown.png";
 
@@ -19,8 +18,8 @@ const ContactSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <EditableText tag="h2" defaultValue="Let's Create Something Amazing" className="text-4xl md:text-5xl font-bold text-foreground" />
-          <EditableText tag="p" defaultValue="Ready to transform your brand? Let's collaborate and make magic happen." className="mt-4 text-lg text-muted-foreground" />
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground">Let's Create Something Amazing</h2>
+          <p className="mt-4 text-lg text-muted-foreground">Ready to transform your brand? Let's collaborate and make magic happen.</p>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6 mb-12">
@@ -32,7 +31,7 @@ const ContactSection = () => {
           >
             <Mail className="w-6 h-6 text-primary mx-auto mb-3" />
             <p className="text-sm text-muted-foreground mb-1">Email</p>
-            <EditableText tag="p" defaultValue="hibanmers@gmail.com" className="text-sm text-foreground font-medium" />
+            <p className="text-sm text-foreground font-medium">hibanmers@gmail.com</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -43,7 +42,7 @@ const ContactSection = () => {
           >
             <Phone className="w-6 h-6 text-primary mx-auto mb-3" />
             <p className="text-sm text-muted-foreground mb-1">Phone</p>
-            <EditableText tag="p" defaultValue="+972 59 834 9117" className="text-sm text-foreground font-medium" />
+            <p className="text-sm text-foreground font-medium">+972 59 834 9117</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -54,7 +53,7 @@ const ContactSection = () => {
           >
             <MapPin className="w-6 h-6 text-primary mx-auto mb-3" />
             <p className="text-sm text-muted-foreground mb-1">Location</p>
-            <EditableText tag="p" defaultValue="Tulkarm, Palestine" className="text-sm text-foreground font-medium" />
+            <p className="text-sm text-foreground font-medium">Tulkarm, Palestine</p>
           </motion.div>
         </div>
 

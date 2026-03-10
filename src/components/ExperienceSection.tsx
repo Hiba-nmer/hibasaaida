@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import EditableText from "./EditableText";
 import { X } from "lucide-react";
 import bankCertificate from "@/assets/bank-certificate.png";
 
@@ -68,8 +67,8 @@ const ExperienceSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <EditableText tag="h2" defaultValue="Professional Experience" className="text-4xl md:text-5xl font-bold text-foreground" />
-          <EditableText tag="p" defaultValue="Building Skills Through Real-World Impact" className="mt-4 text-lg text-muted-foreground" />
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground">Professional Experience</h2>
+          <p className="mt-4 text-lg text-muted-foreground">Building Skills Through Real-World Impact</p>
         </motion.div>
 
         {/* CV-style timeline */}
@@ -96,8 +95,8 @@ const ExperienceSection = () => {
                         <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary font-medium">{exp.period}</span>
                         <span className="text-3xl font-serif font-bold text-primary/15">{exp.num}</span>
                       </div>
-                      <EditableText tag="h3" defaultValue={exp.company} className="text-lg font-bold text-foreground" />
-                      <EditableText tag="p" defaultValue={exp.role} className="text-primary text-sm mt-1" />
+                      <h3 className="text-lg font-bold text-foreground">{exp.company}</h3>
+                      <p className="text-primary text-sm mt-1">{exp.role}</p>
                       <div className="flex flex-wrap gap-2 mt-3">
                         {exp.tags.map((tag) => (
                           <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
@@ -105,7 +104,7 @@ const ExperienceSection = () => {
                           </span>
                         ))}
                       </div>
-                      <EditableText tag="p" defaultValue={exp.desc} className="text-muted-foreground text-sm mt-4 leading-relaxed" />
+                      <p className="text-muted-foreground text-sm mt-4 leading-relaxed">{exp.desc}</p>
                       {exp.certificate && (
                         <button
                           onClick={() => setShowCertificate(exp.certificate!)}

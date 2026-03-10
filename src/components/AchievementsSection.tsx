@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import EditableText from "./EditableText";
 import { Award, X } from "lucide-react";
 import debateCertificate from "@/assets/debate-certificate.jpg";
 
@@ -25,8 +24,8 @@ const AchievementsSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <EditableText tag="h2" defaultValue="Achievements" className="text-4xl md:text-5xl font-bold text-foreground" />
-          <EditableText tag="p" defaultValue="Recognition & Awards" className="mt-4 text-lg text-muted-foreground" />
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground">Achievements</h2>
+          <p className="mt-4 text-lg text-muted-foreground">Recognition & Awards</p>
         </motion.div>
 
         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
@@ -44,11 +43,11 @@ const AchievementsSection = () => {
                   <Award className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <EditableText tag="h3" defaultValue={item.title} className="text-xl font-bold text-foreground" />
-                  <EditableText tag="p" defaultValue={item.subtitle} className="text-primary text-sm mt-1" />
+                  <h3 className="text-xl font-bold text-foreground">{item.title}</h3>
+                  <p className="text-primary text-sm mt-1">{item.subtitle}</p>
                 </div>
               </div>
-              <EditableText tag="p" defaultValue={item.desc} className="text-muted-foreground text-sm leading-relaxed mb-4" />
+              <p className="text-muted-foreground text-sm leading-relaxed mb-4">{item.desc}</p>
               {item.image && (
                 <motion.img
                   src={item.image}

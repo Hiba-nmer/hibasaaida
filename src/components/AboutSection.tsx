@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import EditableText from "./EditableText";
 import watercolorPainting from "@/assets/watercolor-painting.webp";
 
 const cards = [
@@ -19,8 +18,8 @@ const AboutSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <EditableText tag="h2" defaultValue="About Me" className="text-4xl md:text-5xl font-bold text-foreground" />
-          <EditableText tag="p" defaultValue="The Story Behind the Vision" className="mt-4 text-lg text-muted-foreground" />
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground">About Me</h2>
+          <p className="mt-4 text-lg text-muted-foreground">The Story Behind the Vision</p>
         </motion.div>
 
         <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8 items-start">
@@ -49,8 +48,8 @@ const AboutSection = () => {
                 <div className="flex items-start gap-4">
                   <span className="text-4xl font-serif font-bold text-primary/20 group-hover:text-primary/40 transition-colors shrink-0">{card.num}</span>
                   <div>
-                    <EditableText tag="h3" defaultValue={card.title} className="text-xl font-bold text-foreground mb-2" />
-                    <EditableText tag="p" defaultValue={card.desc} className="text-muted-foreground leading-relaxed text-sm" />
+                    <h3 className="text-xl font-bold text-foreground mb-2">{card.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed text-sm">{card.desc}</p>
                   </div>
                 </div>
               </motion.div>
