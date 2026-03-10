@@ -1,28 +1,57 @@
-# Vite React Project
+# Hiba Saaydeh - Portfolio
 
-This project is built with:
+A professional portfolio website for Hiba Saaydeh, E-Commerce & Digital Marketing Specialist.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Built With
 
-## How to run locally
+- [Vite](https://vitejs.dev/)
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [shadcn/ui](https://ui.shadcn.com/)
 
-1. Clone the repository.
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or bun
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Hiba-nmer/hibasaaida.git
+   ```
+
 2. Install dependencies:
-   ```sh
+   ```bash
    npm install
    ```
+
 3. Start the development server:
-   ```sh
+   ```bash
    npm run dev
    ```
 
-## Scripts
+### Building for Production
 
-- `npm run dev`: Start development server.
-- `npm run build`: Build for production.
-- `npm run lint`: Run ESLint.
-- `npm test`: Run tests.
+To create an optimized production build:
+
+```bash
+npm run build
+```
+
+The output will be in the `dist/` directory.
+
+## Deployment
+
+This project is configured for automated deployment to **GitHub Pages** via GitHub Actions.
+
+- The site is hosted at: `https://Hiba-nmer.github.io/hibasaaida/`
+- Deployment occurs automatically on every push to the `main` branch.
+
+## License
+
+All Rights Reserved © 2025 Hiba Saaydeh
